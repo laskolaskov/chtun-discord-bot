@@ -20,7 +20,7 @@ var whisper = color.New(color.FgMagenta).SprintfFunc()
 var whispers = []string{"Death is close...", "You are already dead.", "Your courage will fail.", "Your friends will abandon you.", "You will betray your friends.", "You are weak.", "You will die.", "Your heart will explode."}
 
 func main() {
-	godotenv.Load()
+	godotenv.Overload()
 	discord, err := discordgo.New("Bot " + os.Getenv("BOT_TOKEN"))
 	if err != nil {
 		log.Fatal(err)
