@@ -48,12 +48,24 @@ func listen(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	fmt.Println(whisper("%v disturbed C'Thun!", red(m.Author.Username)))
+	u, err := s.User(m.Author.ID)
+	if err != nil {
+		log.Println(red("Error"), "while getting user data:", err)
+		return
+	}
+
+	//don't whisper to other bots
+	if u.Bot {
+		return
+	}
 
 	ch, err := s.UserChannelCreate(m.Author.ID)
 	if err != nil {
-		fmt.Println(red("Error"), "while creating DM channel:", err)
+		log.Println(red("Error"), "while creating DM channel:", err)
+		return
 	}
+
+	fmt.Println(whisper("%v disturbed C'Thun!", red(m.Author.Username)))
 
 	//somethimes C'Thun will not whisper
 	if random(0, 10) < 3 {
